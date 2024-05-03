@@ -8,6 +8,11 @@ public class CourierTypewriter {
 
      private int font_size; //10,12,14,20
 	 
+	 private double char_width_fontsize20;
+     private double char_width_fontsize14;
+     private double char_width_fontsize12;
+     private double char_width_fontsize10;
+	 
 	 private int line_char_limit_fontsize10;
 	 private int line_char_limit_fontsize12;
 	 private int line_char_limit_fontsize14;
@@ -18,8 +23,10 @@ public class CourierTypewriter {
 	 private int line_YY_space_fontsize14;
 	 private int line_YY_space_fontsize20;
 	 
-	 private int XX;
+	 private int XX_left_margin;
      private int YY;
+	 
+	 private Boolean is_center_justification;
 
      //Unit is 72 == 1 inch, i do not remember how to change the unit-size
      //So if you want 0.5 inch margins at fontsize12 then
@@ -33,7 +40,13 @@ public class CourierTypewriter {
 
      public CourierTypewriter()
      {
+		  is_center_justification    = false;
 		  font_size                  = 20;
+		  
+		  char_width_fontsize20 = 12;
+		  char_width_fontsize14 = 8.3835616438356164383561643835616;
+          char_width_fontsize12 = 7.2;
+		  char_width_fontsize10 = 6;
 		  
 		  line_char_limit_fontsize20 = 45; //51chars per line,    12 units == character-width
 		  line_char_limit_fontsize14 = 65; //73chars per line,    8.3835616438356164383561643835616 units == character-width
@@ -45,8 +58,8 @@ public class CourierTypewriter {
 		  line_YY_space_fontsize14   = 14;
 		  line_YY_space_fontsize20   = 20;
 		  
-		  XX                         = 36;
-		  //XX=0;
+		  XX_left_margin             = 36;
+		  //XX_left_margin=0;
 		  YY                         = 756;
           
 
@@ -85,7 +98,10 @@ public class CourierTypewriter {
 		  System.out.println("every time you press-ENTER-key it forces a new line and carriage-return,");
 		  System.out.println("to stop just make sure on 1 brand new line you press the *-key and then enter,");
 		  System.out.println("to change to fontsize20 make sure on 1 brand new line you press the number-1-key and then enter,");
+		  System.out.println("to change to fontsize14 make sure on 1 brand new line you press the number-2-key and then enter.");
 		  System.out.println("to change to fontsize12 make sure on 1 brand new line you press the number-3-key and then enter.");
+		  System.out.println("to change to fontsize10 make sure on 1 brand new line you press the number-4-key and then enter.");
+		  System.out.println("by default this types left-justification like a typewriter, but to start typing center-justification press the number-5-key and then enter.");
 		  System.out.println("ok please start typing:");
 
           Scanner scan = new Scanner(System.in);
@@ -115,41 +131,50 @@ public class CourierTypewriter {
 					     System.out.println("changing font_size to 10\n");
 						 font_size = 10;
 					}
+					else if ((int)mychar == 53) { //number-5-key == 0x35
+					     System.out.println("changing to center-justification");
+						 is_center_justification = true;
+					}
                     else {
 						 //System.out.println(String.format("length is 1, int value of mychar is %d\n", (int)mychar));
-                         ProcessLine(myline, myobj, 1, font_size);
+                         ProcessLine(myline, myobj, 1);
 					}
                }
                else
-                    ProcessLine(myline, myobj, 1, font_size);
+                    ProcessLine(myline, myobj, 1);
           }
 
           mylist.WriteToFile();
      }
 
 
-     private void ProcessLine(String myline, PDFObject myobj, int fontnum, int fontsize)
+     private void ProcessLine(String myline, PDFObject myobj, int fontnum)
      {
           String addstr;
           String tempstr = myline;
 		  int line_char_limit = 666;
 		  int line_YY_space = 0;
+		  double char_width = 0;
 		  
 		  if (font_size == 10) {
 			  line_char_limit = line_char_limit_fontsize10;
 			  line_YY_space = line_YY_space_fontsize10;
+			  char_width = char_width_fontsize10;
 		  }
 		  else if (font_size == 12) {
 			  line_char_limit = line_char_limit_fontsize12;
 			  line_YY_space = line_YY_space_fontsize12;
+			  char_width = char_width_fontsize12;
 		  }
 		  else if (font_size == 14) {
 			  line_char_limit = line_char_limit_fontsize14;
 			  line_YY_space = line_YY_space_fontsize14;
+			  char_width = char_width_fontsize14;
 		  }
 		  else if (font_size == 20) {
 			  line_char_limit = line_char_limit_fontsize20;
 			  line_YY_space = line_YY_space_fontsize20;
+			  char_width = char_width_fontsize20;
 		  }
 		  
           while (tempstr.length() >= line_char_limit)
@@ -157,12 +182,29 @@ public class CourierTypewriter {
                String appendstr = tempstr.substring(0, line_char_limit);
                tempstr = tempstr.substring(line_char_limit);
 
-               addstr = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", fontnum, fontsize, XX, YY, appendstr);
+               addstr = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", fontnum, font_size, XX_left_margin, YY, appendstr);
                YY -= line_YY_space;
           
                myobj.AppendStr(addstr);
           }
-          addstr = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", fontnum, fontsize, XX, YY, tempstr);
+		  
+		  if (is_center_justification)
+		  {
+			   if (tempstr.length() > 0)
+			   {
+				   int white_space_character_length = line_char_limit - tempstr.length();
+				   double tempdouble = (double)white_space_character_length / 2.0;
+				   tempdouble = tempdouble * char_width;
+				   int tempXXleftmargin = XX_left_margin + (int)tempdouble;
+				   addstr = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", fontnum, font_size, tempXXleftmargin, YY, tempstr);
+			   }
+			   else
+			       addstr = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", fontnum, font_size, XX_left_margin, YY, tempstr); 
+		  }
+		  else
+			   addstr = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", fontnum, font_size, XX_left_margin, YY, tempstr);
+		   
+		   
           YY -= line_YY_space;
           myobj.AppendStr(addstr);
      }
