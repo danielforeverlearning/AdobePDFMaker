@@ -87,21 +87,21 @@ public class AdobePDFMaker {
                      "<</Type /Font /Subtype /Type1 /BaseFont /Courier>>");
 					 
 					 
-			  /*********************
-			  Page2 contents
-			  11 0 obj
+              /*********************
+              Page2 contents
+              11 0 obj
               <</Length 49>>
               stream
               BT /F1 20 Tf 36 756 Td (hi this is page 1)Tj ET
-			  *********************/
-			  PDFObject page2obj = mylist.add(true, "");
-			  String page2str = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", 1, 20, 36, 756, "Hello this is page2 right here");
+              *********************/
+	      PDFObject page2obj = mylist.add(true, "");
+	      String page2str = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", 1, 20, 36, 756, "Hello this is page2 right here");
               page2obj.AppendStr(page2str);
 			  
-			  //12 page3 contents
-			  PDFObject page3obj = mylist.add(true,"");
-			  String page3str = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", 1, 20, 36, 756, "Hi this is page3 right here previous page is page2");
-			  page3obj.AppendStr(page3str);
+	      //12 page3 contents
+	      PDFObject page3obj = mylist.add(true,"");
+	      String page3str = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", 1, 20, 36, 756, "Hi this is page3 right here previous page is page2");
+	      page3obj.AppendStr(page3str);
 					 
 					 
 
