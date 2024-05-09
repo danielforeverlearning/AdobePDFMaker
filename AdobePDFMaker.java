@@ -65,15 +65,15 @@ public class AdobePDFMaker {
               mylist.add(true,
                      "q 99 0 0 99 360 72 cm /Im1 Do Q");
 					 
-			  //7 Page2-tree-node
-			  mylist.add(false,
-                     "<</Type /Page /Parent 2 0 R /Resources 4 0 R /MediaBox [0 0 612 792] /Contents 11 0 R>>");
+	      //7 Page2-tree-node
+	      mylist.add(false,
+                         "<</Type /Page /Parent 2 0 R /Resources 9 0 R /MediaBox [0 0 612 792] /Contents 11 0 R>>");
 					 
-			  //8 Page3-tree-node
-			  mylist.add(false,
-                     "<</Type /Page /Parent 2 0 R /Resources 4 0 R /MediaBox [0 0 612 792] /Contents 12 0 R>>");
+	      //8 Page3-tree-node
+	      mylist.add(false,
+                         "<</Type /Page /Parent 2 0 R /Resources 9 0 R /MediaBox [0 0 612 792] /Contents 12 0 R>>");
 					 
-			  //9 font
+	      //9 font
               mylist.add(false,
                      "<</Font <</F1 10 0 R>>>>");
 
