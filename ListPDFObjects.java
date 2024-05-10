@@ -64,7 +64,7 @@ public class ListPDFObjects {
     {
         try {
              FileWriter mywriter = new FileWriter("output.pdf");
-             Write(mywriter, "%PDF-2.0");
+             Write(mywriter, "%PDF-1.6");
              WriteNewLineCharacter(mywriter);
              WriteObjects(mywriter);
              WriteCrossReferenceTable(mywriter);

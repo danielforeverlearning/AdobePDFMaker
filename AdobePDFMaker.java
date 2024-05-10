@@ -77,16 +77,67 @@ public class AdobePDFMaker {
               mylist.add(false,
                      "<</Font <</F1 10 0 R>>>>");
 
-              //10
+
+              //Caladea
+              //Serif
+              //Times-Roman
+              
+/*************************************************************************
+7 0 obj
+<<
+/Type /Font
+/Subtype /TrueType
+/BaseFont /Arial
+/FirstChar 32
+/LastChar 32
+/Widths [500]
+/FontDescriptor 8 0 R
+/Encoding 9 0 R
+>>
+endobj
+8 0 obj
+<<
+/Type /FontDescriptor
+/FontName /Arial
+/FontFamily (Arial)
+/Flags 32
+/FontBBox [-665.0 -325.0 2000.0 1040.0]
+/ItalicAngle 0
+/Ascent 1040
+/Descent -325
+/CapHeight 716
+/StemV 88
+/XHeight 519
+>>
+endobj
+9 0 obj
+<<
+/Type /Encoding
+/BaseEncoding /WinAnsiEncoding
+/Differences [32 /uniAB55]
+>>
+endobj
+********************************************************/
+
+
               //Helvetica is a proportional-width font
               //mylist.add(false,
               //          "<</Type /Font /Subtype /Type1 /BaseFont /Helvetica>>");
 
+              //https://ctan.org/topic/font-type1?lang=en
+
               //Courier is a fixed-width font
+              //mylist.add(false,
+              //       "<</Type /Font /Subtype /Type1 /BaseFont /Times-Roman>>");
+					 
+              //mylist.add(false,
+              //       "<</Type /Font /Subtype /TrueType /BaseFont /Arial>>");
+
+              //10
               mylist.add(false,
-                     "<</Type /Font /Subtype /Type1 /BaseFont /Courier>>");
-					 
-					 
+"<</Type /Font /Subtype /TrueType /BaseFont /Adobe Handwriting Ernie>>");
+
+
               /*********************
               Page2 contents
               11 0 obj
