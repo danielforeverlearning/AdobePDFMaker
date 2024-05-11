@@ -11,7 +11,8 @@ public class AdobePDFMaker {
           System.out.println("Please enter a menu-choice just the number and then enter:");
           System.out.println("0. Exit");
           System.out.println("1. Color-image output.pdf");
-          System.out.println("2. Courier old-fashioned typewriter output.pdf");
+		  System.out.println("2. External-image output.pdf");
+          System.out.println("3. Courier old-fashioned typewriter output.pdf");
 
           Scanner scan = new Scanner(System.in);
           String choice = scan.nextLine();
@@ -82,6 +83,23 @@ public class AdobePDFMaker {
               //Serif
               //Times-Roman
               
+
+
+
+              //Helvetica is a proportional-width font
+              //mylist.add(false,
+              //          "<</Type /Font /Subtype /Type1 /BaseFont /Helvetica>>");
+
+              //https://ctan.org/topic/font-type1?lang=en
+
+              //Courier is a fixed-width font
+              //mylist.add(false,
+              //       "<</Type /Font /Subtype /Type1 /BaseFont /Times-Roman>>");
+					 
+              //mylist.add(false,
+              //       "<</Type /Font /Subtype /TrueType /BaseFont /Arial>>");
+			  
+
 /*************************************************************************
 7 0 obj
 <<
@@ -119,23 +137,25 @@ endobj
 endobj
 ********************************************************/
 
-
-              //Helvetica is a proportional-width font
-              //mylist.add(false,
-              //          "<</Type /Font /Subtype /Type1 /BaseFont /Helvetica>>");
-
-              //https://ctan.org/topic/font-type1?lang=en
-
-              //Courier is a fixed-width font
-              //mylist.add(false,
-              //       "<</Type /Font /Subtype /Type1 /BaseFont /Times-Roman>>");
-					 
-              //mylist.add(false,
-              //       "<</Type /Font /Subtype /TrueType /BaseFont /Arial>>");
+/*****
 
               //10
+			  //SegoeScript worked but said bad bbox
               mylist.add(false,
-"<</Type /Font /Subtype /TrueType /BaseFont /Adobe Handwriting Ernie>>");
+"<</Type /Font /Subtype /TrueType /BaseFont /Arial /FirstChar 32 /LastChar 32 /Widths [500] /FontDescriptor 11 0 R /Encoding 12 0 R>>");
+
+              //11
+			  mylist.add(false,
+"<</Type /FontDescriptor /FontName /Arial /FontFamily (Arial) /Flags 32 /FontBBox [-665.0 -325.0 2000.0 1040.0] /ItalicAngle 0 /Ascent 1040 /Descent -325 /CapHeight 716 /StemV 88 /XHeight 519>>");
+
+              //12
+			  mylist.add(false,
+"<</Type /Encoding /BaseEncoding /WinAnsiEncoding>>");
+*****/
+
+              //10
+			  mylist.add(false,
+"<</Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique>>");
 
 
               /*********************
@@ -145,20 +165,22 @@ endobj
               stream
               BT /F1 20 Tf 36 756 Td (hi this is page 1)Tj ET
               *********************/
-	      PDFObject page2obj = mylist.add(true, "");
-	      String page2str = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", 1, 20, 36, 756, "Hello this is page2 right here");
+	          PDFObject page2obj = mylist.add(true, "");
+	          String page2str = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", 1, 20, 36, 756, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
               page2obj.AppendStr(page2str);
 			  
-	      //12 page3 contents
-	      PDFObject page3obj = mylist.add(true,"");
-	      String page3str = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", 1, 20, 36, 756, "Hi this is page3 right here previous page is page2");
-	      page3obj.AppendStr(page3str);
-					 
+	          //12 page3 contents
+	          PDFObject page3obj = mylist.add(true,"");
+	          String page3str = String.format("BT /F%d %d Tf %d %d Td (%s)Tj ET\n", 1, 20, 36, 756, "Genghis Khan Famouse people names");
+	          page3obj.AppendStr(page3str);
 					 
 
               mylist.WriteToFile();
           }
-          else if (choice.compareTo("2") == 0) {
+		  else if (choice.compareTo("2") == 0) {
+			  ExternalImageTest test = new ExternalImageTest();
+		  }
+          else if (choice.compareTo("3") == 0) {
               CourierTypewriter mytypewriter = new CourierTypewriter();
           }
 
