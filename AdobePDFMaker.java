@@ -10,9 +10,11 @@ public class AdobePDFMaker {
      {
           System.out.println("Please enter a menu-choice just the number and then enter:");
           System.out.println("0. Exit");
-          System.out.println("1. Color-image output.pdf");
-		  System.out.println("2. External-image output.pdf");
-          System.out.println("3. Courier old-fashioned typewriter output.pdf");
+          System.out.println("1. Color-image TEST output.pdf");
+		  System.out.println("2. External-image output.pdf THIS IS BROKEN NOT WORKING");
+		  System.out.println("3. Image-after-dump output.pdf");
+		  System.out.println("4. Color-image TEST output.pdf class");
+          System.out.println("5. Courier old-fashioned typewriter output.pdf");
 
           Scanner scan = new Scanner(System.in);
           String choice = scan.nextLine();
@@ -39,7 +41,7 @@ public class AdobePDFMaker {
                      "<</XObject <</Im1 5 0 R>>>>");
 
               //5
-              PDFObject myobj = mylist.addStreamObjectAndPrestream(
+              ImagePDFObject myobj = mylist.addImageStreamObjectAndPrestream(
 "<</Type /XObject /Subtype /Image /Width 16 /Height 16 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /ASCIIHexDecode ");
 
               String colorbytes = "";
@@ -180,7 +182,19 @@ endobj
 		  else if (choice.compareTo("2") == 0) {
 			  ExternalImageTest test = new ExternalImageTest();
 		  }
-          else if (choice.compareTo("3") == 0) {
+		  else if (choice.compareTo("3") == 0) {
+			  try {
+				  System.out.println("ImageAfterDump dumptest = new ImageAfterDump()");
+				  ImageAfterDump dumptest = new ImageAfterDump();
+			  }
+			  catch (Exception ex) {
+				  ex.printStackTrace();
+			  }
+		  }
+		  else if (choice.compareTo("4") == 0) {
+			  ColorImageTest test2 = new ColorImageTest();
+		  }
+          else if (choice.compareTo("5") == 0) {
               CourierTypewriter mytypewriter = new CourierTypewriter();
           }
 

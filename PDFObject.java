@@ -29,7 +29,13 @@ public class PDFObject {
 
     public void AppendStr(String appendstr)
     {
-         Str += appendstr;
+		 try {
+             Str += appendstr;
+		 }
+		 catch (Exception ex)
+		 {
+			 ex.printStackTrace();
+		 }
     }
 
     public int GetObjectNumber()

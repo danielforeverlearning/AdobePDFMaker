@@ -31,6 +31,14 @@ public class ListPDFObjects {
         mylist.add(myobj);
         return myobj;
     }
+	
+	public ImagePDFObject addImageStreamObjectAndPrestream(String prestreamstr)
+    {
+        count++;
+        ImagePDFObject myobj = new ImagePDFObject(count, prestreamstr);
+        mylist.add(myobj);
+        return myobj;
+    }
 
     private Boolean WriteNewLineCharacter(FileWriter mywriter)
     {
@@ -38,8 +46,8 @@ public class ListPDFObjects {
             mywriter.write("\n");
             byte_location += 1;
        }
-       catch (IOException ex) {
-             System.out.println("WriteNewLineCharacter: IOException caught");
+       catch (Exception ex) {
+             System.out.println("WriteNewLineCharacter: Exception caught");
              ex.printStackTrace();
              return false;
        }
@@ -52,8 +60,8 @@ public class ListPDFObjects {
              mywriter.write(str);
              byte_location += str.length();
         }
-        catch (IOException ex) {
-             System.out.println("Write: IOException caught");
+        catch (Exception ex) {
+             System.out.println("Write: Exception caught");
              ex.printStackTrace();
              return false;
         }
@@ -71,8 +79,8 @@ public class ListPDFObjects {
              WriteTrailer(mywriter);
              mywriter.close();
         }
-        catch (IOException ex) {
-             System.out.println("WriteToFile: IOException caught");
+        catch (Exception ex) {
+             System.out.println("WriteToFile: Exception caught");
              ex.printStackTrace();
              return false;
         }
@@ -157,21 +165,44 @@ public class ListPDFObjects {
                   }
                   else 
                   {    //prestream exists
-                       Write(mywriter, myobj.GetPrestream());
-                       Write(mywriter, "/Length ");
-                       tempstr = String.format("%d",
-                                 myobj.GetStr().length()+1);
-                       Write(mywriter, tempstr);
-                       Write(mywriter, ">>");
-                       WriteNewLineCharacter(mywriter);
-                       Write(mywriter, "stream");
-                       WriteNewLineCharacter(mywriter);
-                       Write(mywriter, myobj.GetStr());
-                       WriteNewLineCharacter(mywriter);
-                       Write(mywriter, "endstream");
-                       WriteNewLineCharacter(mywriter);
-                       Write(mywriter, "endobj");
-                       WriteNewLineCharacter(mywriter);
+			           if (myobj instanceof ImagePDFObject) {
+						   
+						   System.out.println("WriteColorBytes ImagePDFObject");
+						   ImagePDFObject myimageobj = (ImagePDFObject)myobj;
+						   
+						   Write(mywriter, myimageobj.GetPrestream());
+						   Write(mywriter, "/Length ");
+						   tempstr = String.format("%d", myimageobj.GetTotalColorByteLength() + 1);
+						   Write(mywriter, tempstr);
+						   Write(mywriter, ">>");
+						   WriteNewLineCharacter(mywriter);
+						   Write(mywriter, "stream");
+						   WriteNewLineCharacter(mywriter);
+						   
+						   myimageobj.WriteColorBytes(mywriter);
+						   
+						   Write(mywriter, "endstream");
+						   WriteNewLineCharacter(mywriter);
+						   Write(mywriter, "endobj");
+						   WriteNewLineCharacter(mywriter);
+					   }
+					   else {
+						   Write(mywriter, myobj.GetPrestream());
+						   Write(mywriter, "/Length ");
+						   tempstr = String.format("%d",
+									 myobj.GetStr().length()+1);
+						   Write(mywriter, tempstr);
+						   Write(mywriter, ">>");
+						   WriteNewLineCharacter(mywriter);
+						   Write(mywriter, "stream");
+						   WriteNewLineCharacter(mywriter);
+						   Write(mywriter, myobj.GetStr());
+						   WriteNewLineCharacter(mywriter);
+						   Write(mywriter, "endstream");
+						   WriteNewLineCharacter(mywriter);
+						   Write(mywriter, "endobj");
+						   WriteNewLineCharacter(mywriter);
+					   }
                   }
              }
              else //not stream object
